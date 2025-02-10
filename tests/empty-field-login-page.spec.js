@@ -5,6 +5,6 @@ test('test', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Email*' }).click();
   await page.getByRole('textbox', { name: 'Password*' }).click();
   await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByRole('textbox', { name: 'Email*' })).toBeVisible();
-  await expect(page.getByRole('textbox', { name: 'Password*' })).toBeVisible();
+  const emailValidationMessage = await page.locator('input[name="email"]').evaluate(el => el.validationMessage);
+  expect(emailValidationMessage).toBe('Please fill out this field.');
 });
