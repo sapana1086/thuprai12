@@ -1,0 +1,32 @@
+name: Run Tests on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - master  # Trigger on PRs targeting the master branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify the Node.js version you’re using
+
+      - name: Install dependencies
+        run: npm install  # Install dependencies
+
+      - name: Run tests
+        run: npm test  # Run your tests with the testing framework you're using (e.g., Jest)
+
+      - name: Upload test results (optional)
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: test-results/  # Path to your test results
